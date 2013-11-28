@@ -1,0 +1,15 @@
+﻿@model Registration.Models.User
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>@ViewData["first_name"]</h2>
+@using (Html.BeginForm("WatchDB", "Home"))
+{
+    @Html.LabelFor(m => m.Name);
+    @Html.TextBoxFor(m => m.Name);
+    @Html.LabelFor(m => m.Password);
+    @Html.PasswordFor(m => m.Password);
+    <input type="submit" />
+    <div>@ViewData["Error"]</div>
+}

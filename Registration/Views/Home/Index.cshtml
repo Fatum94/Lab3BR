@@ -1,0 +1,41 @@
+﻿@model Registration.Models.Kompressor
+
+
+<link rel="stylesheet" type="text/css" href= "../../UI/css/main.css" />
+       
+        <div id="form-wrapp">
+        
+			<div class="menu">
+				<span class='input active'>Введення даних</span>
+				<span class='output'>Отримані результати</span>
+			</div>
+            @using (Html.BeginForm("LogOut", "Home")) { 
+               <input type="submit" value="logout" class="logout"/>
+            }
+        @using (Html.BeginForm("InsertCompressorCharacter", "Home"))
+        {
+            @Html.LabelFor(m => m.PressIn)
+            @Html.TextBoxFor(m => m.PressIn)
+            @Html.ValidationMessageFor(m => m.PressIn)
+            @Html.LabelFor(m => m.Performance)
+            @Html.TextBoxFor(m => m.Performance)
+            @Html.LabelFor(m => m.PressOut)
+            @Html.TextBoxFor(m => m.PressOut)
+            @Html.LabelFor(m => m.Rodo)
+            @Html.TextBoxFor(m => m.Rodo)
+            <input type="submit" />
+        }
+         @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+         { 
+ 
+            <input type="file" name="FileUpload" />
+            <input type="submit" name="Submit" id="Submit" value="Upload" />
+ 
+         }
+         <a href="/Home/ConvertDataToCSV">Download History</a>
+		</div>
+        
+
+
+ 
+<p>@Html.Encode(ViewData["Feedback"])</p>

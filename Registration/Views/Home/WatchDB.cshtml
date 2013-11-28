@@ -1,0 +1,11 @@
+﻿
+@{
+        foreach (var data in ViewData) { 
+            if(!data.Key.Contains("Error")){
+                <div>@data.Value ,@data.Key</div>
+            }
+            else{
+                <div>@data.Value</div>
+            }
+        }
+    }
