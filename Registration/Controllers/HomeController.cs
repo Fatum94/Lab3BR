@@ -78,47 +78,25 @@ namespace System.Web.Security
 
         public ViewDataDictionary getFromTable(User user)
         {
-            var list = new ViewDataDictionary();
-            string connectionString = GetConnectionString("Database1.mdf");
-            SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
-            SqlCommand cmd = new SqlCommand(string.Format("select * from users where firstName='{0}'", user.Name), connection);
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.Read())
-            {
-                var pass = reader[1] as string;
-                if (pass == Request.Form["password"])
-                {
-                    string name = reader[0] as string;
-                    list.Add(name, "Welcome back");
-                    var hash = Convert.ToBase64String(
+            var database = new Database();
+            var userLine = database.Users.Where(u => u.Name == user.Name).FirstOrDefault();
+            if (userLine.Password == user.Password) {
+                var hash = Convert.ToBase64String(
                       System.Security.Cryptography.MD5.Create()
-                      .ComputeHash(Encoding.UTF8.GetBytes(pass))
+                      .ComputeHash(Encoding.UTF8.GetBytes(userLine.Password))
                     );
 
 
-                    var AuthCookie = new HttpCookie("auth_test")
-                    {
-                        Value = hash,
-                        Expires = DateTime.Now.Add(FormsAuthentication.Timeout)
-                    };
-                    user.isAuth = true;
-                    HttpContext.Response.Cookies.Set(AuthCookie);
-                }
-                else
+                var AuthCookie = new HttpCookie("auth_test")
                 {
-                    list.Add("ErrorAuthorisation", "Sorry, but your password is invalid. Please try one more time!");
-                }
-
+                    Value = hash,
+                    Expires = DateTime.Now.Add(FormsAuthentication.Timeout)
+                };
+                user.isAuth = true;
+                HttpContext.Response.Cookies.Set(AuthCookie);
             }
-            else
-            {
-                list.Add("Error", "Sorry, but you are not registered");
-            }
-
-            connection.Close();
-            return new ViewDataDictionary(list);
+            
+            return null;
         }
 
         static private string GetConnectionString(string DBname)
@@ -165,9 +143,10 @@ namespace System.Web.Security
             //    }
             //    sw.WriteLine(line);
             //}
-            
 
-            foreach (var rows in arr) {
+
+            foreach (var rows in arr)
+            {
                 sw.WriteLine(rows.PressIn);
             }
             sw.Dispose();
@@ -200,7 +179,7 @@ namespace System.Web.Security
         private void ProcessCSV(string fileName)
         {
             var database = new Database();
-           
+
             //Set up our variables
             string Feedback = string.Empty;
             string line = string.Empty;
@@ -214,11 +193,11 @@ namespace System.Web.Security
 
                 //add our current value to our data row
                 strArray = r.Split(line);
-                
+
                 database.Compressor.Add(new Kompressor { PressIn = strArray[0], PressOut = strArray[1], Performance = strArray[2], Rodo = strArray[3] });
                 database.SaveChanges();
-           }
-  
+            }
+
         }
     }
 
