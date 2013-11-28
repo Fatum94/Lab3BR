@@ -103,7 +103,7 @@ namespace System.Web.Security
         {
             // To avoid storing the connection string in your code, 
             // you can retrieve it from a configuration file.
-            return "Data Source=.\\SQLEXPRESS;AttachDbFilename=D:\\obrylTest\\netTest\\Wtf\\Registration\\App_Data\\" + DBname + ";Integrated Security=True;User Instance=True";
+            return "Server=ae99b891-4131-41c9-bc04-a28400954cd5.sqlserver.sequelizer.com;Database=dbae99b891413141c9bc04a28400954cd5;User ID=uwnsdivrecfjlsda;Password=5N8qShcSrbhK7W7aZi8iaiJbqJBmCr6BKRTK2XaXMX5pAXTwTdnsbFdUd7aiMYoa;";
         }
 
         public ActionResult InsertCompressorCharacter(Kompressor compr)
